@@ -7,12 +7,6 @@ import Maths from '../../hd/hd.math';
 const Strategy = {
 
     /**
-     * Game.play.currentPlayerID
-     * @type {Number}
-     */
-    currentPlayerID : null,
-
-    /**
      * Game.players
      * @type {Array}
      */
@@ -46,25 +40,23 @@ const Strategy = {
      * @param {Object} Mediator
      */
     init : function(Game, Mediator){
-        Strategy.currentPlayerID = Game.play.currentPlayerID;
         Strategy.players = Game.players;
         Strategy.grid = Game.grid;
-        Strategy.mediator = Mediator;
+        Strategy.Mediator = Mediator;
     },
 
     /**
      * Algoritmus lefuttatása
      * @param {String} status - az AI meghívási módja ('next'|'end')
-     * @return {Object} field objektum
+     * @return {Number} mező azonosító
      */
     run : function(status){
-        let placeField = null;
-        const ai = Strategy.players[Strategy.currentPlayerID].strategy;
+        let placeFieldID = null;
+        const ai = Strategy.players[Strategy.Mediator.currentPlayerID()].strategy;
         if (status === 'next'){
-            placeField = Strategy[ai](Strategy.storage[ai]);
+            placeFieldID = Strategy[ai](Strategy.storage[ai]);
         }
-        // Strategy.mediator.strategyAction(placeField);  // TODO: ezt muszáj így?
-        return placeField;
+        return placeFieldID;
     },
 
     /**

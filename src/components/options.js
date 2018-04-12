@@ -1,21 +1,20 @@
 import React from 'react';
 
 class Options extends React.Component {
+
     constructor(props){
         super(props);
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleChange = this.handleChange.bind(this);
+        this.setErrorMessage = this.setErrorMessage.bind(this);
 
         this.state = {
-            started : true,  // TODO
             errors : []
         };
     }
 
     handleSubmit(event){
-        this.setState({
-            started : true
-        });
+        this.props.start();
     }
 
     handleChange(event){
@@ -25,22 +24,53 @@ class Options extends React.Component {
         if (['gridSize_x', 'gridSize_y', 'connectNum'].indexOf(name) > -1 && !/^[0-9]*$/.test(value)){
             return;
         }
+        if (name === 'gridSize_x'){
+            isValid = this.setErrorMessage(
+                name, value,
+                (value <= 30 && value >= 3)
+            );
+        }
+        if (name === 'gridSize_y'){
+            isValid = this.setErrorMessage(
+                name, value,
+                (value <= 20 && value >= 3)
+            );
+        }
         if (name === 'connectNum'){
-            if (value < 3 || value > Math.min(this.gridSize_x.value, this.gridSize_y.value)){
-                this.setState({
-                    errors : [...this.state.errors, name]
-                });
-                isValid = false;
-            }
+            isValid = this.setErrorMessage(
+                name, value,
+                (value >= 3 && value <= Math.min(this.gridSize_x.value, this.gridSize_y.value))
+            );
         }
         this.props.formChange(name, value);
         this.props.setValid(isValid);
     }
 
+    setErrorMessage(name, value, validCondition){
+        const removeable = this.state.errors.findIndex(err => err === name);
+        let isValid = true;
+        if (!validCondition){
+            if (!this.state.errors.find(err => err === name)){
+                this.setState({
+                    errors : [...this.state.errors, name]
+                });
+            }
+            isValid = false;
+        }
+        else if (removeable > -1){
+            const lessErrors = this.state.errors.slice();
+            lessErrors.splice(removeable, 1);
+            this.setState({
+                errors : lessErrors
+            });
+        }
+        return isValid;
+    }
+
     render(){
         const form = this.props.form;
         return (
-            <div id="game-overlay" className={this.state.started ? 'hidden' : ''}>
+            <div id="game-overlay" className={this.props.started ? 'hidden' : ''}>
                 <div className="form">
                     <div className="error">{String(this.state.errors)}</div>
                     <div className="label">
@@ -107,6 +137,7 @@ class Options extends React.Component {
             </div>
         );
     }
+
 }
 
 export default Options;

@@ -38,7 +38,7 @@ const Graphics = {
     gridSize : null,
 
     /**
-     * Kövek színei (kulcs: playerID)
+     * Kövek színei (kulcs: stone)
      * @type {Array}
      */
     stoneColors : null,
@@ -58,7 +58,9 @@ const Graphics = {
         Graphics.level = Game.sizes.level;
         Graphics.gridSize = Game.sizes.grid;
         Graphics.lineWidth = Game.graphics.lineWidth;
-        Graphics.stoneColors = Game.players.map(player => player.stoneColor);
+        Graphics.stoneColors = Game.players.slice().sort((p1, p2) => {
+            return p1.stone > p2.stone;
+        }).map(player => player.stoneColor);
 
         Graphics.ctx = Game.element.getContext('2d');
         Graphics.layers = {
@@ -133,15 +135,15 @@ const Graphics = {
          * @param {Object} pos - {x : Number, y : Number, w : Number, h : Number}
          */
         function(ctx, pos){
-            const corrH = Math.round(Graphics.level.w / Graphics.gridSize.y / 3.3);
-            const corrV = Math.round(Graphics.level.h / Graphics.gridSize.x / 3.3);
+            const corrH = Math.round(Graphics.level.w / Graphics.gridSize.x / 4);
+            const corrV = Math.round(Graphics.level.h / Graphics.gridSize.y / 4);
             ctx.strokeStyle = Graphics.stoneColors[0];
-            ctx.lineWidth = Math.floor(corrH / 2.3);
+            ctx.lineWidth = Math.floor(corrH / 2);
             ctx.beginPath();
-            ctx.moveTo(pos.x + corrH / 1.8, pos.y + corrV);
-            ctx.lineTo(pos.x + pos.w - corrH / 1.8, pos.y + pos.h - corrV);
-            ctx.moveTo(pos.x + pos.w - corrH / 1.8, pos.y + corrV);
-            ctx.lineTo(pos.x + corrH / 1.8, pos.y + pos.h - corrV);
+            ctx.moveTo(pos.x + corrH, pos.y + corrV);
+            ctx.lineTo(pos.x + pos.w - corrH, pos.y + pos.h - corrV);
+            ctx.moveTo(pos.x + pos.w - corrH, pos.y + corrV);
+            ctx.lineTo(pos.x + corrH, pos.y + pos.h - corrV);
             ctx.stroke();
         },
 
@@ -152,7 +154,7 @@ const Graphics = {
          */
         function(ctx, pos){
             const corr = Math.round(
-                (Graphics.level.w / Graphics.gridSize.y + Graphics.level.h / Graphics.gridSize.x) / 8
+                (Graphics.level.w / Graphics.gridSize.x + Graphics.level.h / Graphics.gridSize.y) / 8
             );
             ctx.strokeStyle = Graphics.stoneColors[1];
             ctx.lineWidth = Math.floor(corr / 2);
@@ -167,13 +169,13 @@ const Graphics = {
          * @param {Object} pos - {x : Number, y : Number, w : Number, h : Number}
          */
         function(ctx, pos){
-            const corrH = Math.round(Graphics.level.w / Graphics.gridSize.y / 5);
-            const corrV = Math.round(Graphics.level.h / Graphics.gridSize.x / 5);
+            const corrH = Math.round(Graphics.level.w / Graphics.gridSize.x / 5);
+            const corrV = Math.round(Graphics.level.h / Graphics.gridSize.y / 5);
             ctx.strokeStyle = Graphics.stoneColors[2];
             ctx.lineWidth = Math.floor(corrH * 0.8);
             ctx.beginPath();
-            ctx.moveTo(pos.x + corrH / 1.8, pos.y + pos.h / 2);
-            ctx.lineTo(pos.x + pos.w - corrH / 1.8, pos.y + pos.h / 2);
+            ctx.moveTo(pos.x + corrH, pos.y + pos.h / 2);
+            ctx.lineTo(pos.x + pos.w - corrH, pos.y + pos.h / 2);
             ctx.moveTo(pos.x + pos.w / 2, pos.y + corrV);
             ctx.lineTo(pos.x + pos.w / 2, pos.y + pos.h - corrV);
             ctx.stroke();

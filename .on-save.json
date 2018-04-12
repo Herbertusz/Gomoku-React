@@ -1,0 +1,8 @@
+[
+  {
+    "srcDir": "src/sass",
+    "destDir": "src/css",
+    "files": "**/*.scss",
+    "command": "C:\\Ruby23-x64\\bin\\sass.bat --no-cache --update ${srcFile}:${destFileWithoutExtension}.css --style compressed"
+  }
+]

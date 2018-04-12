@@ -26,8 +26,12 @@ class PlayerItem extends React.Component {
         }
     }
 
-    componentWillUnmount(){
-        this.timer.stop();
+    shouldComponentUpdate(){
+        if (this.props.gameSection === 'end'){
+            this.timer.stop();
+            return false;
+        }
+        return true;
     }
 
     tick(formattedTime){

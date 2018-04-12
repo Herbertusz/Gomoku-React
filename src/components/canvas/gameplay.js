@@ -91,8 +91,7 @@ const Gameplay = {
         const newGameSection = Gameplay.gameNextSection();
         Gameplay.Mediator.gameSection(newGameSection);
         if (Gameplay.players[firstPlayerID].strategy !== 'human'){
-            const fieldID = Gameplay.Mediator.strategy('next');
-            Gameplay.nextPlayer(fieldID);
+            Gameplay.Mediator.strategy('next');
         }
     },
 
@@ -115,8 +114,7 @@ const Gameplay = {
         if (newGameSection !== 'end'){
             Gameplay.Mediator.currentPlayerID(currentPlayerID);
             if (Gameplay.players[currentPlayerID].strategy !== 'human'){
-                const nextFieldID = Gameplay.Mediator.strategy('next');
-                Gameplay.nextPlayer(nextFieldID);
+                Gameplay.Mediator.strategy('next');
             }
             return 'next';
         }
@@ -124,7 +122,7 @@ const Gameplay = {
             Gameplay.players.forEach((player, id) => {
                 Gameplay.players[id].status = 'end';
             });
-            Gameplay.Mediator.endGame(Gameplay.play.winner.playerID);
+            Gameplay.Mediator.endGame(Gameplay.play.winner);
             return 'end';
         }
     },
@@ -140,6 +138,10 @@ const Gameplay = {
         const directions = ['horizontal', 'vertical', 'diagonal-asc', 'diagonal-desc'];
 
         if (!Gameplay.grid.find(field => field.playerID === null)){
+            Gameplay.play.winner = {
+                playerID : null,
+                sequence : []
+            };
             isEnd = true;
         }
         else if (!lastFieldID){
@@ -149,7 +151,7 @@ const Gameplay = {
             isEnd = directions.some(direction => {
                 sequence = [];
                 sequenceLength = Gameplay.neighbouringPlayerFields(lastFieldID, direction, function(field){
-                    sequence.push(field);
+                    sequence.push(field.id);
                 });
                 if (sequenceLength >= Gameplay.play.connectNum){
                     Gameplay.play.winner = {

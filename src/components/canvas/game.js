@@ -124,7 +124,7 @@ const Game = {
          * @type {Object}
          * @description szerkezet: {
          *     playerID : Number,        // játékos azonosító
-         *     sequence : Array[Object]  // kirakott sor (field lista)
+         *     sequence : Array(Number)  // kirakott sor (fieldID lista)
          * }
          */
         winner : {
@@ -154,7 +154,7 @@ const Game = {
     players : null,
 
     /**
-     * Pálya pillanatnyi szerkezete
+     * Pálya pillanatnyi állapota
      * @type {Array}
      * @description szerkezet: [
      *     <fieldID> => {               // (field objektum)
@@ -209,7 +209,7 @@ const Game = {
         Game.sizes.connectNum = props.options.connectNum;
 
         Game.sizes.level = {};
-        Game.sizes.level.h = Game.sizes.canvas.h;
+        Game.sizes.level.h = Number(Game.sizes.canvas.h);
         Game.sizes.level.w = Math.round(Game.sizes.level.h * (Game.sizes.grid.x / Game.sizes.grid.y));
         Game.sizes.level.x = (Game.sizes.canvas.w - Game.sizes.level.w) / 2;
         Game.sizes.level.y = 0;

@@ -4,7 +4,6 @@ import Timer from '../hd/hd.datetime.timer';
 
 class StatusBar extends React.Component {
 
-
     constructor(props){
         super(props);
         this.tick = this.tick.bind(this);
@@ -22,8 +21,12 @@ class StatusBar extends React.Component {
         this.timer = timer;
     }
 
-    componentWillUnmount(){
-        this.timer.stop();
+    shouldComponentUpdate(){
+        if (this.props.gameSection === 'end'){
+            this.timer.stop();
+            return false;
+        }
+        return true;
     }
 
     tick(formattedTime){

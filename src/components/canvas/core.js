@@ -11,79 +11,71 @@ import Strategy from './strategy';
 const Core = {
 
     /**
-     * Ez a függvény a GameCanvas komponens setState metódusát hívja
+     * Pálya pillanatnyi állapota egyszerűsített formában (playerID-k tömbje; belső használatra)
+     * @type {Array}
+     */
+    grid : [],
+
+    /**
+     * [changeState description]
      * @type {Function}
      */
-    changeStateMethod : null,
+    changeState : null,
 
     /**
      * [description]
      * @param {HTMLCanvasElement} canvas
      * @param {Object} props
-     * @param {Function} changeStateMethod
      */
-    init : function(canvas, props, changeStateMethod){
-        Core.changeStateMethod = changeStateMethod;
+    init : function(canvas, props){
+        Core.grid = Array(props.options.gridSize_x * props.options.gridSize_y).fill(null);
+        Core.changeState = props.changeState;
         Game.init(canvas, props);
         Graphics.init(Game);
-        Interaction.init(Game, Core.mediator);
-        Gameplay.init(Game, Core.mediator);
+        Interaction.init(Game, Core.Mediator);
+        Strategy.init(Game, Core.Mediator);
+        Gameplay.init(Game, Core.Mediator);
     },
 
     /**
-     * GameCanvas komponens státusz alkalmazása a canvas-ra
-     * @param {Object} state
-     * @description state = {
-     *     gameSection : String,         // jelenlegi játékszakasz ('init'|'play'|'end')
-     *     currentPlayerID : Number,     // jelenlegi játékos azonosítója (PlayArea kompoenens státusza)
-     *     grid : Array(null|playerID),  // táblára rakott kövek
-     *     winner : {
-     *         playerID : Number,        // játékos azonosító
-     *         sequence : Array(Number)  // kirakott sor (fieldID lista)
-     *     }
+     * Belső státusz módosítása
+     * @param {Number} newFieldID
+     * @param {Number} newPlayerID
+     */
+    changeGrid : function(newFieldID, newPlayerID){
+        Core.grid[newFieldID] = newPlayerID;
+        Graphics.clearStones();
+        Core.grid.forEach((playerID, fieldID) => {
+            if (playerID !== null){
+                Game.grid[fieldID].playerID = playerID;
+                Graphics.drawStone(Game.grid[fieldID], Game.players[playerID].stone);
+            }
+        });
+    },
+
+    /**
+     * [description]
+     * @param {Object} winner [description]
+     * @description winner = {
+     *     playerID : Number,
+     *     sequence : Array(fieldID)
      * }
      */
-    applyState : function(state){
-        if (state.gameSection !== 'end'){
-            Graphics.clearStones();
-            state.grid.forEach((playerID, fieldID) => {
-                if (playerID !== null){
-                    Game.grid[fieldID].playerID = playerID;
-                    Graphics.drawStone(Game.grid[fieldID], Game.players[playerID].stone);
-                }
+    endGame : function(winner){
+        if (winner.sequence.length){
+            winner.sequence.forEach(fieldID => {
+                Graphics.repaintField(Game.grid[fieldID], Game.players[winner.playerID].winColor);
             });
         }
-        else {
-            console.log(state.winner);
-            // state.winner.playerID;
-            state.winner.sequence.forEach(fieldID => {
-                Graphics.repaintField(Game.grid[fieldID], Game.players[state.winner.playerID].winColor);
-            });
-        }
+        Core.changeState('winnerID', winner.playerID);
     },
 
     /**
      * Objektumok összekapcsolása
-     * mediator (illesztő) minta
+     * Mediator (illesztő) minta
      * @type {Object}
      */
-    mediator : {
-
-        /**
-         * [description]
-         * @param {String|Object} property
-         * @param {*} value
-         */
-        changeState : function(property, value = null){
-            if (typeof property === 'object'){
-                Core.changeStateMethod(property);
-            }
-            else {
-                Core.changeStateMethod({
-                    [property] : value
-                });
-            }
-        },
+    Mediator : {
 
         /**
          * [description]
@@ -91,9 +83,7 @@ const Core = {
          * @param {Number} playerID
          */
         changeGridState : function(fieldID, playerID){
-            Core.changeStateMethod({
-                grid : {fieldID, playerID}
-            });
+            Core.changeGrid(fieldID, playerID);
             Gameplay.nextPlayer(fieldID);
         },
 
@@ -105,7 +95,7 @@ const Core = {
         gameSection : function(set = null){
             if (set !== null){
                 Game.play.gameSection = set;
-                Core.mediator.changeState('gameSection', set);
+                Core.changeState('gameSection', set);
                 return set;
             }
             else {
@@ -121,7 +111,7 @@ const Core = {
         currentPlayerID : function(set = null){
             if (set !== null){
                 Game.play.currentPlayerID = set;
-                Core.mediator.changeState('currentPlayerID', set);
+                Core.changeState('currentPlayerID', set);
                 return set;
             }
             else {
@@ -131,10 +121,15 @@ const Core = {
 
         /**
          * [description]
-         * @param {Number} playerID
+         * @param {Object} winner
+         * @description winner = {
+         *     playerID : Number,
+         *     sequence : Array(fieldID)
+         * }
          */
-        endGame : function(playerID){
-            console.log('END');
+        endGame : function(winner){
+            Game.play.winner = winner;
+            Core.endGame(winner);
         },
 
         /**

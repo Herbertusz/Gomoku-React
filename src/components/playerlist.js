@@ -1,4 +1,5 @@
 import React from 'react';
+
 import PlayerItem from './playeritem';
 
 class PlayerList extends React.Component {
@@ -7,7 +8,10 @@ class PlayerList extends React.Component {
         const players = this.props.players;
         const elements = [];
         players.forEach((player, i) => {
-            elements.push(<PlayerItem key={player.stone} player={player} active={i === this.props.active} />);
+            elements.push(
+                <PlayerItem key={player.stone} gameSection={this.props.gameSection}
+                    player={player} active={i === this.props.active} />
+            );
         });
         return (
             <ul data-content="playerList">

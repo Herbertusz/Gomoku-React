@@ -1,2 +1,2 @@
 # Gomoku-React
-Single player Gomoku game based on ReactJS
+ReactJS alapú egyszemélyes amőba játék
