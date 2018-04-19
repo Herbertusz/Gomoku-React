@@ -74,40 +74,42 @@ const Graphics = {
             const ctxCache = canvas.getContext('2d');
             const grid = Game.grid;
 
-            // vonalak rajzolása
-            ctxCache.strokeStyle = Game.graphics.lineColor;
-            ctxCache.lineWidth = Graphics.lineWidth;
-            ctxCache.beginPath();
+            if (Graphics.lineWidth > 0){
+                // vonalak rajzolása
+                ctxCache.strokeStyle = Game.graphics.lineColor;
+                ctxCache.lineWidth = Graphics.lineWidth;
+                ctxCache.beginPath();
 
-            Util.Array.fromNum(Graphics.gridSize.y).forEach(row => {
-                // vízszintes vonalak
-                const n = row * Graphics.gridSize.x;
-                const field = grid[n];
-                const lastInRow = (row + 1) * Graphics.gridSize.x - 1;
-                if (n > 0){
-                    if (Graphics.lineWidth % 2 === 1 && field.y % 1 === 0){
-                        field.y += 0.5;
-                        grid[lastInRow].y += 0.5;
+                Util.Array.fromNum(Graphics.gridSize.y).forEach(row => {
+                    // vízszintes vonalak
+                    const n = row * Graphics.gridSize.x;
+                    const field = grid[n];
+                    const lastInRow = (row + 1) * Graphics.gridSize.x - 1;
+                    if (n > 0){
+                        if (Graphics.lineWidth % 2 === 1 && field.y % 1 === 0){
+                            field.y += 0.5;
+                            grid[lastInRow].y += 0.5;
+                        }
+                        ctxCache.moveTo(field.x, field.y);
+                        ctxCache.lineTo(grid[lastInRow].x + grid[lastInRow].w, grid[lastInRow].y);
                     }
-                    ctxCache.moveTo(field.x, field.y);
-                    ctxCache.lineTo(grid[lastInRow].x + grid[lastInRow].w, grid[lastInRow].y);
-                }
-            });
-            Util.Array.fromNum(Graphics.gridSize.x).forEach(col => {
-                // függőleges vonalak
-                const n = col;
-                const field = grid[n];
-                const lastInCol = (Graphics.gridSize.y - 1) * Graphics.gridSize.x + col;
-                if (n > 0){
-                    if (Graphics.lineWidth % 2 === 1 && field.x % 1 === 0){
-                        field.x += 0.5;
-                        grid[lastInCol].x += 0.5;
+                });
+                Util.Array.fromNum(Graphics.gridSize.x).forEach(col => {
+                    // függőleges vonalak
+                    const n = col;
+                    const field = grid[n];
+                    const lastInCol = (Graphics.gridSize.y - 1) * Graphics.gridSize.x + col;
+                    if (n > 0){
+                        if (Graphics.lineWidth % 2 === 1 && field.x % 1 === 0){
+                            field.x += 0.5;
+                            grid[lastInCol].x += 0.5;
+                        }
+                        ctxCache.moveTo(field.x, field.y);
+                        ctxCache.lineTo(grid[lastInCol].x, grid[lastInCol].y + grid[lastInCol].h);
                     }
-                    ctxCache.moveTo(field.x, field.y);
-                    ctxCache.lineTo(grid[lastInCol].x, grid[lastInCol].y + grid[lastInCol].h);
-                }
-            });
-            ctxCache.stroke();
+                });
+                ctxCache.stroke();
+            }
         };
 
         Graphics.layers.level.draw(function(canvas, ctx){

@@ -11,7 +11,7 @@
 	z-index: 1;
 	margin: 0;
 	width: 100%;
-	height: 500px;
+	height: 525px;
 	border: 1px solid #000000;
 	background-color: #ffffff;
 	text-align: center;
@@ -80,6 +80,7 @@
 
 		.messagebox{
 			position: absolute;
+			text-align: center;
 
 			.message {
 				margin: 5px 0;
@@ -91,6 +92,18 @@
 
 				&.cloneable {
 					display: none;
+				}
+			}
+
+			.new-game {
+				display: inline-block;
+				padding-top: 10px;
+				color: #6041ff;
+				font-weight: bold;
+				cursor: pointer;
+
+				&:hover {
+					color: #000000;
 				}
 			}
 		}

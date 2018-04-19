@@ -104,7 +104,7 @@ const DOM = function(identifier){
          */
         elements : (function(ident){
             if (typeof ident === 'string'){
-                if (ident.indexOf('<') > -1){
+                if (ident.includes('<')){
                     // HTML kód
                     const div = document.createElement('div');
                     div.innerHTML = ident;
@@ -466,7 +466,7 @@ const DOM = function(identifier){
         /**
          * Elem klónozása
          * @param {Boolean} [withEvents=false] - eseménykezelők másolása
-         * @return {Object}
+         * @return {DOM}
          */
         clone : function(withEvents = false){
             const elementClone = this.elem().cloneNode(true);
@@ -496,7 +496,7 @@ const DOM = function(identifier){
          * Elem rekurzív másolása eseménykezelőkkel együtt és beszúrása egy másik elembe
          * @param {HTMLElement} insert - beszúrás helye
          * @param {Boolean} [prepend=false] - ha true, beszúrás az elejére
-         * @return {HTMLElement} az elem másolata
+         * @return {DOM} az elem másolata
          */
         copyPaste : function(insert, prepend = false){
             const Clone = this.clone(true);
@@ -507,8 +507,7 @@ const DOM = function(identifier){
             else {
                 insert.appendChild(Clone.elem());
             }
-            Clone.class('remove', 'cloneable');
-            return Clone.elem();
+            return Clone;
         },
 
         /**
@@ -698,6 +697,23 @@ DOM.getMousePosition = function(event, elem = document.body){
     return {
         x : event.pageX - offset.x,
         y : event.pageY - offset.y
+    };
+};
+
+/**
+ * Elem pozíciója a document-hez képest
+ * @param {Event} element - a DOM elem
+ * @return {Object} relatív pozíció
+ * @description
+ *  return = {
+ *      x : Number,
+ *      y : Number
+ *  }
+ */
+DOM.getElementPosition = function(element){
+    return {
+        x : element.getBoundingClientRect().left + document.documentElement.scrollLeft,
+        y : element.getBoundingClientRect().top + document.documentElement.scrollTop
     };
 };
 

@@ -91,7 +91,7 @@ const Maths = {
             let n;
             const ret = A;
             for (n = 0; n < B.length; n++){
-                if (ret.indexOf(B[n]) === -1){
+                if (!ret.includes(B[n])){
                     ret.push(B[n]);
                 }
             }
@@ -108,7 +108,7 @@ const Maths = {
             let n;
             const ret = [];
             for (n = 0; n < A.length; n++){
-                if (B.indexOf(A[n]) > -1){
+                if (B.includes(A[n])){
                     ret.push(A[n]);
                 }
             }
@@ -125,7 +125,7 @@ const Maths = {
             let n;
             const ret = [];
             for (n = 0; n < A.length; n++){
-                if (B.indexOf(A[n]) === -1){
+                if (!B.includes(A[n])){
                     ret.push(A[n]);
                 }
             }

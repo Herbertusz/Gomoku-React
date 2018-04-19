@@ -10,7 +10,7 @@ class GameCanvas extends React.Component {
 
     render(){
         return (
-            <canvas ref={elem => (this.canvas = elem)} width={this.props.width} height={this.props.height} />
+            <canvas ref={e => (this.canvas = e)} width={this.props.width} height={this.props.height} />
         );
     }
 

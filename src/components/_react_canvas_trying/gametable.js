@@ -13,8 +13,7 @@ import Line from './canvas/line';
         playerNames : ['Hörb', 'Dan', 'Svarci'],
         playerStones : [0, 1, 2],
         stoneColors : ['rgb(255, 0, 0)', 'rgb(0, 150, 0)', 'rgb(0, 0, 255)'],
-        firstPlayerID : 0,
-        isValid : true
+        firstPlayerID : 0
     },
     grid : [null, ...]
 };

@@ -168,7 +168,7 @@ Utility.Number = {
                 offset = size.length - q.length;
             }
             numberpart = size.substr(0, offset);
-            if (size.indexOf('.') === -1 && size.indexOf(',') > -1){
+            if (!size.includes('.') && size.includes(',')){
                 numberpart = numberpart.replace(',', '.');
             }
             numberpart = numberpart.replace(' ', '');
@@ -332,16 +332,16 @@ Utility.String = {
         const upchars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
         const signs = '\'"+!%/=()~^`$<>#&@{}[]\\|,.-?:_;*';
 
-        if (type.indexOf('1') > -1){
+        if (type.includes('1')){
             chars += nums;
         }
-        if (type.indexOf('a') > -1){
+        if (type.includes('a')){
             chars += lowchars;
         }
-        if (type.indexOf('A') > -1){
+        if (type.includes('A')){
             chars += upchars;
         }
-        if (type.indexOf('s') > -1){
+        if (type.includes('s')){
             chars += signs;
         }
 
@@ -463,7 +463,7 @@ Utility.Array = {
      * @return {Array} módosított tömb
      */
     addByVal : function(arr, val){
-        if (arr.indexOf(val) === -1){
+        if (!arr.includes(val)){
             arr.push(val);
         }
         return arr;
