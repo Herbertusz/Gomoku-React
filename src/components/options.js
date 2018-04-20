@@ -27,7 +27,6 @@ class Options extends React.Component {
             return;
         }
         this.props.formChange(name, value, () => {
-            console.log(this.props.form);
             isValid = this.checkErrors();
             this.setState({isValid});
         });
