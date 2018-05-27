@@ -21,12 +21,13 @@ const Strategy = {
     /**
      * AI függvények adattárolója (pl előző lefutás eredménye, stb)
      * @type {Object}
-     * @description szerkezet: {
-     *     <algoritmus> : {      // algoritmus metódus neve
-     *         <adat1> : Mixed   // adatok
-     *         ...
-     *     }
-     * }
+     * @description
+     *  storage = {
+     *      <algoritmus> : {      // algoritmus metódus neve
+     *          <adat1> : Mixed   // adatok
+     *          ...
+     *      }
+     *  }
      */
     storage : {
         random : {

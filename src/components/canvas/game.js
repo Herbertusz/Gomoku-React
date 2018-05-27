@@ -64,32 +64,35 @@ const Game = {
         /**
          * Canvas méretei
          * @type {Object}
-         * @description szerkezet: {
-         *     w : Number,  // canvas szélessége
-         *     h : Number   // canvas magassága
-         * }
+         * @description
+         *  canvas = {
+         *      w : Number,  // canvas szélessége
+         *      h : Number   // canvas magassága
+         *  }
          */
         canvas : null,
 
         /**
          * Pálya mérete {x : 3 - 20, y : 3 - 30}
          * @type {Object}
-         * @description szerkezet: {
-         *     x : Number,  // grid oszlopainak száma
-         *     y : Number   // grid sorainak száma
-         * }
+         * @description
+         *  grid = {
+         *      x : Number,  // grid oszlopainak száma
+         *      y : Number   // grid sorainak száma
+         *  }
          */
         grid : null,
 
         /**
          * Pálya helyzete a canvas-on belül (element és sizes.grid alapján)
          * @type {Object}
-         * @description szerkezet: {
-         *     x : Number,
-         *     y : Number,
-         *     w : Number,
-         *     h : Number
-         * }
+         * @description
+         *  level = {
+         *      x : Number,
+         *      y : Number,
+         *      w : Number,
+         *      h : Number
+         *  }
          */
         level : null
 
@@ -122,10 +125,11 @@ const Game = {
         /**
          * Játék győztese
          * @type {Object}
-         * @description szerkezet: {
-         *     playerID : Number,        // játékos azonosító
-         *     sequence : Array(Number)  // kirakott sor (fieldID lista)
-         * }
+         * @description
+         *  winner = {
+         *      playerID : Number,        // játékos azonosító
+         *      sequence : Array(Number)  // kirakott sor (fieldID lista)
+         *  }
          */
         winner : {
             playerID : null,
@@ -137,38 +141,40 @@ const Game = {
     /**
      * Játékosok adatai
      * @type {Array}
-     * @description szerkezet: [
-     *     {
-     *         strategy : String,    // algoritmus ('human': nem gép)
-     *         name : String,        // név
-     *         stone : Number,       // Kő azonosítója (0|1|2)
-     *         isFirst : Boolean,    // kezdő játékos
-     *         stoneColor : String,  // kő színe
-     *         winColor : String     // kirakott sor háttérszíne
-     *         time : Number,        // aktuális lépésidő
-     *         status : String       // állapot ('init'|'play'|'wait'|'end')
-     *     },
-     *     ...
-     * ]
+     * @description
+     *  players = [
+     *      {
+     *          strategy : String,    // algoritmus ('human': nem gép)
+     *          name : String,        // név
+     *          stone : Number,       // Kő azonosítója (0|1|2)
+     *          isFirst : Boolean,    // kezdő játékos
+     *          stoneColor : String,  // kő színe
+     *          winColor : String     // kirakott sor háttérszíne
+     *          time : Number,        // aktuális lépésidő
+     *          status : String       // állapot ('init'|'play'|'wait'|'end')
+     *      },
+     *      ...
+     *  ]
      */
     players : null,
 
     /**
      * Pálya pillanatnyi állapota
      * @type {Array}
-     * @description szerkezet: [
-     *     <fieldID> => {               // (field objektum)
-     *         id : Number,             // mező azonosító
-     *         row : Number,            // oszlop azonosító
-     *         col : Number,            // sor azonosító
-     *         playerID : null|Number,  // játékos azonosító
-     *         x : Number,              // mező bal felső sarkának x koordinátája
-     *         y : Number,              // mező bal felső sarkának y koordinátája
-     *         w : Number,              // mező szélessége
-     *         h : Number               // mező magassága
-     *     },
-     *     ...
-     * ]
+     * @description
+     *  grid = [
+     *      <fieldID> => {               // (field objektum)
+     *          id : Number,             // mező azonosító
+     *          row : Number,            // oszlop azonosító
+     *          col : Number,            // sor azonosító
+     *          playerID : null|Number,  // játékos azonosító
+     *          x : Number,              // mező bal felső sarkának x koordinátája
+     *          y : Number,              // mező bal felső sarkának y koordinátája
+     *          w : Number,              // mező szélessége
+     *          h : Number               // mező magassága
+     *      },
+     *      ...
+     *  ]
      */
     grid : null,
 
