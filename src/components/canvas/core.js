@@ -44,13 +44,8 @@ const Core = {
      */
     changeGrid : function(newFieldID, newPlayerID){
         Core.grid[newFieldID] = newPlayerID;
-        Graphics.clearStones();
-        Core.grid.forEach((playerID, fieldID) => {
-            if (playerID !== null){
-                Game.grid[fieldID].playerID = playerID;
-                Graphics.drawStone(Game.grid[fieldID], Game.players[playerID].stone);
-            }
-        });
+        Game.grid[newFieldID].playerID = newPlayerID;
+        Graphics.drawStone(Game.grid[newFieldID], Game.players[newPlayerID].stone);
     },
 
     /**

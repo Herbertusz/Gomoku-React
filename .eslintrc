@@ -183,7 +183,7 @@
     // disallow the use of the __iterator__ property
     "no-iterator": "error",
     // disallow labeled statements
-    "no-labels": "warn",
+    "no-labels": "error",
     // disallow unnecessary nested blocks
     "no-lone-blocks": "warn",
     // disallow function declarations and expressions inside loop statements
