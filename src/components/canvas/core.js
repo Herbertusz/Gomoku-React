@@ -50,7 +50,7 @@ const Core = {
 
     /**
      * [description]
-     * @param {Object} winner [description]
+     * @param {Object} winner
      * @description winner = {
      *     playerID : Number,
      *     sequence : Array(fieldID)
